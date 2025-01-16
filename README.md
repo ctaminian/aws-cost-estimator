@@ -1,0 +1,1 @@
+A simple tool written in Python that estimates various AWS cloud services costs
