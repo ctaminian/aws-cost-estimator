@@ -1,5 +1,7 @@
+from pricing import PRICING
+
 def main():
-    print("Main")
+    print(PRICING)
 
 if __name__ == "__main__":
     main()
