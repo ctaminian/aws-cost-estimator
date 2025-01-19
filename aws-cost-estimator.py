@@ -69,13 +69,13 @@ def estimate_ec2():
     weeks = get_positive_int("For how many weeks? ")
 
     total_hours = hours * days * weeks
-    print(f"Your instance will run for a total of {total_hours} hours at a rate of ${ec2_price} / hour")
-    print(f"Your total cost is estimated to be: ${total_hours * ec2_price:.2f}")
+    print(f"\nYour instance will run for a total of {total_hours} hours at a rate of ${ec2_price} / hour")
+    print(f"Your total cost is estimated to be: ${total_hours * ec2_price:.2f}\n")
 
 def estimate_s3():
-    print("\nYou chose S3.")
+    print("You chose S3.")
 
-    storage = get_positive_int("\nHow much data (in GB) will you store in S3 per month? ")
+    storage = get_positive_int("How much data (in GB) will you store in S3 per month? ")
     transfer = get_positive_int("How much data (in GB) will you transfer using S3 per month? ")
     storage_cost = storage * PRICING["S3"]["storage_per_gb"]
     transfer_cost = transfer * PRICING["S3"]["data_transfer_out_per_gb"]
