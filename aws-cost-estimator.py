@@ -41,7 +41,7 @@ def get_positive_int(prompt):
             if value > 0:
                 return value
             else:
-                print("Please enter a positive number.")
+                print("Please enter a positive number greater than 0.")
         except ValueError:
             print("Invalid input! Please enter a number.")
 
@@ -69,11 +69,22 @@ def estimate_ec2():
     weeks = get_positive_int("For how many weeks? ")
 
     total_hours = hours * days * weeks
-    print(f"Your instance will run for a total of {total_hours} hours at a rate of ${ec2_price:.4f} / hour")
+    print(f"Your instance will run for a total of {total_hours} hours at a rate of ${ec2_price} / hour")
     print(f"Your total cost is estimated to be: ${total_hours * ec2_price:.2f}")
 
 def estimate_s3():
-    print("You chose S3.")
+    print("\nYou chose S3.")
+
+    storage = get_positive_int("\nHow much data (in GB) will you store in S3 per month? ")
+    transfer = get_positive_int("How much data (in GB) will you transfer using S3 per month? ")
+    storage_cost = storage * PRICING["S3"]["storage_per_gb"]
+    transfer_cost = transfer * PRICING["S3"]["data_transfer_out_per_gb"]
+    total_s3_cost = storage_cost + transfer_cost
+
+    print("\nS3 Monthly Cost Breakdown:")
+    print(f"- Storage Cost: ${storage_cost:.2f}")
+    print(f"- Data Transfer Cost: ${transfer_cost:.2f}")
+    print(f"Total Estimated Monthly Cost: ${total_s3_cost:.2f}\n")
 
 if __name__ == "__main__":
     main()
