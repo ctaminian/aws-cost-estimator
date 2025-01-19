@@ -12,7 +12,8 @@ def load_menu():
     print("Which service would you like to estimate costs for?")
     print("1. EC2")
     print("2. S3")
-    print("3. Exit Program")
+    print("3. RDS")
+    print("4. Exit Program")
 
     try:
         choice = int(input("Please enter your choice (e.g., 1 for EC2): "))
@@ -26,13 +27,15 @@ def load_menu():
         case 2:
             estimate_s3()
         case 3:
+            estimate_rds()
+        case 4:
             confirm_exit()
         case _:
             print("Invalid choice! Please select a valid option.")
 
 def confirm_exit():
     confirm = input("Are you sure you want to exit? (y/n): ").strip().lower()
-    
+
     if confirm == "y":
         print("\nExiting program.")
         print("Thank you for using the AWS price estimator.\n")
@@ -91,6 +94,9 @@ def estimate_s3():
     print(f"- Storage Cost: ${storage_cost:.2f}")
     print(f"- Data Transfer Cost: ${transfer_cost:.2f}")
     print(f"Total Estimated Monthly Cost: ${total_s3_cost:.2f}\n")
+
+def estimate_rds():
+    print("You chose RDS.")
 
 if __name__ == "__main__":
     main()
