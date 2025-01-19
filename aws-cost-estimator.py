@@ -2,7 +2,8 @@ import sys
 from pricing import PRICING
 
 def main():
-    load_menu()
+    while True:
+        load_menu()
 
 def load_menu():
     while True:
@@ -28,8 +29,8 @@ def load_menu():
                 estimate_s3()
                 break
             case 3:
-                print("Exiting program.")
-                print("Thank you for using the AWS price estimator.")
+                print("\nExiting program.")
+                print("Thank you for using the AWS price estimator.\n")
                 sys.exit()
             case _:
                 print("Invalid choice! Please select a valid option.")
