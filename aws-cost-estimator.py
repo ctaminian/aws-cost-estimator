@@ -97,6 +97,45 @@ def estimate_s3():
 
 def estimate_rds():
     print("You chose RDS.")
+    print("Available database engines:")
+
+    for i, engine in enumerate(PRICING["RDS"].keys(), 1):
+        print(f"{i}. {engine}")
+
+    engine_choice = get_positive_int("Select a database engine (e.g. 1 for MySQL): ")
+    while engine_choice not in range(1, len(PRICING["RDS"].keys()) + 1):
+        print("Invalid choice! Please select a valid option.")
+        engine_choice = get_positive_int("Select a database engine (e.g. 1 for MySQL): ")
+
+    selected_engine = list(PRICING["RDS"].keys())[engine_choice - 1]
+    print(f"You selected {selected_engine}. Available instance types:")
+
+    for i, instance in enumerate(PRICING["RDS"][selected_engine], 1):
+        print(f"{i}. {instance}")
+
+    instance_choice = get_positive_int("Select an instance type (e.g. 1 for db.t3.micro): ")
+    while instance_choice not in range(1, len(PRICING["RDS"][selected_engine].keys()) + 1):
+        print("Invalid choice! Please select a valid option.")
+        instance_choice = get_positive_int("Select an instance type (e.g. 1 for db.t3.micro): ")
+
+    selected_instance = list(PRICING["RDS"][selected_engine].keys())[instance_choice - 1]
+    print(f"You selected {selected_instance}")
+
+    db_price = PRICING["RDS"][selected_engine][selected_instance]
+
+    hours = get_positive_int("How many hours per day will the instance run? ")
+    days = get_positive_int("How many days per week? ")
+    weeks = get_positive_int("For how many weeks? ")
+
+    total_hours = hours * days * weeks
+    print("\n----------------------------")
+    print(f"RDS Cost Breakdown:")
+    print(f"- Engine: {selected_engine}")
+    print(f"- Instance: {selected_instance}")
+    print(f"- Total Hours: {total_hours}")
+    print(f"- Hourly Rate: ${db_price:.4f}")
+    print(f"Total Estimated Cost: ${total_hours * db_price:.2f}")
+    print("----------------------------\n")
 
 if __name__ == "__main__":
     main()
