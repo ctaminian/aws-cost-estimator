@@ -78,8 +78,13 @@ def estimate_ec2():
     weeks = get_positive_int("For how many weeks? ")
 
     total_hours = hours * days * weeks
-    print(f"\nYour instance will run for a total of {total_hours} hours at a rate of ${ec2_price} / hour")
-    print(f"Your total cost is estimated to be: ${total_hours * ec2_price:.2f}\n")
+    print("\n----------------------------")
+    print(f"EC2 Cost Breakdown:")
+    print(f"- Instance: {instance_name}")
+    print(f"- Total Hours: {total_hours}")
+    print(f"- Hourly Rate: ${ec2_price}")
+    print(f"Total Estimated Cost: ${total_hours * ec2_price:.2f}")
+    print("----------------------------\n")
 
 def estimate_s3():
     print("You chose S3.")
@@ -90,10 +95,14 @@ def estimate_s3():
     transfer_cost = transfer * PRICING["S3"]["data_transfer_out_per_gb"]
     total_s3_cost = storage_cost + transfer_cost
 
-    print("\nS3 Monthly Cost Breakdown:")
+    print("\n----------------------------")
+    print("S3 Cost Breakdown:")
+    print(f"- Storage Amount: {storage}GB")    
     print(f"- Storage Cost: ${storage_cost:.2f}")
+    print(f"- Transfer Amount: {transfer}GB")   
     print(f"- Data Transfer Cost: ${transfer_cost:.2f}")
-    print(f"Total Estimated Monthly Cost: ${total_s3_cost:.2f}\n")
+    print(f"Total Estimated Cost: ${total_s3_cost:.2f}")
+    print("----------------------------\n")
 
 def estimate_rds():
     print("You chose RDS.")
@@ -133,7 +142,7 @@ def estimate_rds():
     print(f"- Engine: {selected_engine}")
     print(f"- Instance: {selected_instance}")
     print(f"- Total Hours: {total_hours}")
-    print(f"- Hourly Rate: ${db_price:.4f}")
+    print(f"- Hourly Rate: ${db_price}")
     print(f"Total Estimated Cost: ${total_hours * db_price:.2f}")
     print("----------------------------\n")
 
