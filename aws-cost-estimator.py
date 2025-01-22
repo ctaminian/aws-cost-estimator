@@ -1,6 +1,12 @@
 import sys
 from pricing import PRICING
 
+session_costs = {
+    "EC2": 0.00,
+    "S3": 0.00,
+    "RDS": 0.00,
+}
+
 def main():
     while True:
         load_menu()
@@ -13,7 +19,8 @@ def load_menu():
     print("1. EC2")
     print("2. S3")
     print("3. RDS")
-    print("4. Exit Program")
+    print("4. View Cost Summary")
+    print("5. Exit Program")
 
     try:
         choice = int(input("Please enter your choice (e.g., 1 for EC2): "))
@@ -29,7 +36,9 @@ def load_menu():
         case 3:
             estimate_rds()
         case 4:
-            confirm_exit()
+            view_summary()
+        case 5:
+            confirm_exit()   
         case _:
             print("Invalid choice! Please select a valid option.")
 
@@ -53,6 +62,16 @@ def get_positive_int(prompt):
                 print("Please enter a positive number greater than 0.")
         except ValueError:
             print("Invalid input! Please enter a number.")
+
+def view_summary():
+    total_aws_costs = 0
+    print("\n----------------------------")
+    print(f"AWS Cost Summary:")
+    for item in session_costs:
+        total_aws_costs += session_costs[item]
+        print(f"- {item}: ${session_costs[item]:.2f}")
+    print("----------------------------")
+    print(f"Total: ${total_aws_costs:.2f}\n")
 
 def estimate_ec2():
     print("You chose EC2.")
@@ -78,12 +97,16 @@ def estimate_ec2():
     weeks = get_positive_int("For how many weeks? ")
 
     total_hours = hours * days * weeks
+    total_ec2_cost = total_hours * ec2_price
+
+    session_costs["EC2"] += total_ec2_cost
+
     print("\n----------------------------")
     print(f"EC2 Cost Breakdown:")
     print(f"- Instance: {instance_name}")
     print(f"- Total Hours: {total_hours}")
     print(f"- Hourly Rate: ${ec2_price}")
-    print(f"Total Estimated Cost: ${total_hours * ec2_price:.2f}")
+    print(f"Total Estimated Cost: ${total_ec2_cost:.2f}")
     print("----------------------------\n")
 
 def estimate_s3():
@@ -94,6 +117,8 @@ def estimate_s3():
     storage_cost = storage * PRICING["S3"]["storage_per_gb"]
     transfer_cost = transfer * PRICING["S3"]["data_transfer_out_per_gb"]
     total_s3_cost = storage_cost + transfer_cost
+
+    session_costs["S3"] += total_s3_cost
 
     print("\n----------------------------")
     print("S3 Cost Breakdown:")
@@ -137,13 +162,17 @@ def estimate_rds():
     weeks = get_positive_int("For how many weeks? ")
 
     total_hours = hours * days * weeks
+    total_db_cost = total_hours * db_price
+
+    session_costs["RDS"] += total_db_cost
+
     print("\n----------------------------")
     print(f"RDS Cost Breakdown:")
     print(f"- Engine: {selected_engine}")
     print(f"- Instance: {selected_instance}")
     print(f"- Total Hours: {total_hours}")
     print(f"- Hourly Rate: ${db_price}")
-    print(f"Total Estimated Cost: ${total_hours * db_price:.2f}")
+    print(f"Total Estimated Cost: ${total_db_cost:.2f}")
     print("----------------------------\n")
 
 if __name__ == "__main__":
